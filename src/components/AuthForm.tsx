@@ -4,9 +4,11 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { BASE_URL } from "../config";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const navigate = useNavigate();
+  const authCtx = useAuth();
 
   const login = useMutation(
     ({ email, password }: { email: string; password: string }) => {
@@ -14,7 +16,14 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     },
     {
       onSuccess(data) {
-        console.log(data);
+        const { email, firstname, lastname, token } = data.data;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ email, firstname, lastname })
+        );
+        localStorage.setItem("token", token);
+        authCtx.updateUser({ email, firstname, lastname, token });
+        navigate("/");
       },
     }
   );
@@ -29,7 +38,7 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
       return axios.post(`${BASE_URL}/user/signup`, userData);
     },
     {
-      onSuccess(data) {
+      onSuccess() {
         navigate("/signin");
       },
     }

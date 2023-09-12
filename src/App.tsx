@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import ProtectRoute from "./components/ProtectRoute";
 import Loading from "./components/Loading";
+import { useAuth } from "./context/AuthContext";
 
 const Restaurants = lazy(() => import("./pages/Restaurants"));
 const RestaurantDetails = lazy(() => import("./pages/RestaurantDetails"));
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const authCtx = useAuth();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user = JSON.parse(localStorage.getItem("user")!);
+      authCtx.updateUser({ ...user, token });
+    }
+  }, []);
+
   return (
     <div className="h-full">
       <RouterProvider router={router} />
