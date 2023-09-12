@@ -7,6 +7,7 @@ import { Oval } from "react-loader-spinner";
 import Header from "../components/Header";
 import RestaurantList from "../components/RestaurantList";
 import { Pagination } from "antd";
+import { IRestaurant } from "../types/types";
 
 const Restaurants = () => {
   const authCtx = useAuth();
@@ -24,9 +25,19 @@ const Restaurants = () => {
     url.searchParams.set("maxRating", maxRating);
   }
 
+  const onPageChange = (page: number) => {
+    setSearchParams((params) => {
+      params.set("page", page.toString());
+      return params;
+    });
+  };
+
   const { data, error, isLoading } = useQuery("restaurants", {
     queryFn() {
-      return axios.get(url.toString(), {
+      return axios.get<{
+        totalCount: number;
+        restaurants: IRestaurant[];
+      }>(url.toString(), {
         headers: {
           Authorization: `Bearer ${authCtx.user!.token}`,
         },
@@ -34,8 +45,6 @@ const Restaurants = () => {
     },
     retry: 2,
   });
-
-  console.log(data, error, isLoading);
 
   if (isLoading) {
     return (
@@ -47,14 +56,20 @@ const Restaurants = () => {
   }
 
   return (
-    <div>
-      <Header />
-      <RestaurantList />
-      <Pagination
-        defaultCurrent={+page}
-        pageSize={6}
-        total={data?.data.totalCount}
-      />
+    <div className="flex flex-col justify-between h-full pb-8 px-12">
+      {data && (
+        <>
+          <Header />
+          <RestaurantList restaurants={data.data.restaurants} />
+          <Pagination
+            onChange={onPageChange}
+            className="mx-auto"
+            defaultCurrent={+page}
+            pageSize={6}
+            total={data?.data.totalCount}
+          />
+        </>
+      )}
     </div>
   );
 };
