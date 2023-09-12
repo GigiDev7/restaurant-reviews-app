@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import { Oval } from "react-loader-spinner";
+import Header from "../components/Header";
 
 const Restaurants = () => {
   const authCtx = useAuth();
@@ -43,7 +44,12 @@ const Restaurants = () => {
     );
   }
 
-  return <div>Restaurants</div>;
+  return (
+    <div>
+      <Header />
+      Restaurants
+    </div>
+  );
 };
 
 export default Restaurants;
