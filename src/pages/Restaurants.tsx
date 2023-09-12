@@ -5,6 +5,8 @@ import { BASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import { Oval } from "react-loader-spinner";
 import Header from "../components/Header";
+import RestaurantList from "../components/RestaurantList";
+import { Pagination } from "antd";
 
 const Restaurants = () => {
   const authCtx = useAuth();
@@ -47,7 +49,12 @@ const Restaurants = () => {
   return (
     <div>
       <Header />
-      Restaurants
+      <RestaurantList />
+      <Pagination
+        defaultCurrent={+page}
+        pageSize={6}
+        total={data?.data.totalCount}
+      />
     </div>
   );
 };
