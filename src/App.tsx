@@ -1,38 +1,55 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Restaurants from "./pages/Restaurants";
-import RestaurantDetails from "./pages/RestaurantDetails";
+import { lazy, Suspense } from "react";
 import ProtectRoute from "./components/ProtectRoute";
+import Loading from "./components/Loading";
+
+const Restaurants = lazy(() => import("./pages/Restaurants"));
+const RestaurantDetails = lazy(() => import("./pages/RestaurantDetails"));
+const Signin = lazy(() => import("./pages/Signin"));
+const Signup = lazy(() => import("./pages/Signup"));
 
 const router = createBrowserRouter([
   {
     path: "/signin",
-    element: <div>signin</div>,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Signin />
+      </Suspense>
+    ),
   },
   {
     path: "/signup",
-    element: <div>signup</div>,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Signup />
+      </Suspense>
+    ),
   },
   {
     path: "/",
     element: (
-      <ProtectRoute>
-        <Restaurants />
-      </ProtectRoute>
+      <Suspense fallback={<Loading />}>
+        <ProtectRoute>
+          <Restaurants />
+        </ProtectRoute>
+      </Suspense>
     ),
   },
   {
     path: "/:restaurantId",
     element: (
-      <ProtectRoute>
-        <RestaurantDetails />
-      </ProtectRoute>
+      <Suspense fallback={<Loading />}>
+        <ProtectRoute>
+          <RestaurantDetails />
+        </ProtectRoute>
+      </Suspense>
     ),
   },
 ]);
 
 function App() {
   return (
-    <div>
+    <div className="h-full">
       <RouterProvider router={router} />
     </div>
   );
