@@ -32,7 +32,8 @@ const Restaurants = () => {
     });
   };
 
-  const { data, error, isLoading } = useQuery("restaurants", {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["restaurants", page],
     queryFn() {
       return axios.get<{
         totalCount: number;
@@ -56,7 +57,7 @@ const Restaurants = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between h-full pb-8 px-12">
+    <div className="flex flex-col h-full justify-between pb-8 px-12">
       {data && (
         <>
           <Header />
