@@ -8,7 +8,7 @@ type RestaurantListProps = {
 
 const RestaurantList: React.FC<RestaurantListProps> = ({ restaurants }) => {
   return (
-    <div className="flex flex-wrap gap-14 w-[90%] mx-auto">
+    <div className="flex flex-wrap gap-14">
       {restaurants.map((restaurant) => (
         <RestaurantCard key={restaurant._id} restaurant={restaurant} />
       ))}

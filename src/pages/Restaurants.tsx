@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import RestaurantList from "../components/RestaurantList";
 import { Pagination } from "antd";
 import { IRestaurant } from "../types/types";
+import RatingFilter from "../components/RatingFilter";
 
 const Restaurants = () => {
   const authCtx = useAuth();
@@ -33,7 +34,7 @@ const Restaurants = () => {
   };
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["restaurants", page],
+    queryKey: ["restaurants", page, minRating, maxRating],
     queryFn() {
       return axios.get<{
         totalCount: number;
@@ -57,14 +58,21 @@ const Restaurants = () => {
   }
 
   return (
-    <div className="flex flex-col h-full justify-between pb-8 px-12">
+    <div className="flex flex-col h-full pb-8 px-12">
       {data && (
         <>
           <Header />
-          <RestaurantList restaurants={data.data.restaurants} />
+          <div className="flex mt-12 px-8 gap-14">
+            <RatingFilter />
+            {data.data.totalCount > 0 ? (
+              <RestaurantList restaurants={data.data.restaurants} />
+            ) : (
+              <p>No restaurants found!</p>
+            )}
+          </div>
           <Pagination
             onChange={onPageChange}
-            className="mx-auto"
+            className="mx-auto mt-12"
             defaultCurrent={+page}
             pageSize={6}
             total={data?.data.totalCount}
