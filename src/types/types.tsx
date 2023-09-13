@@ -9,7 +9,7 @@ export interface IRestaurant {
 
 export interface IReview {
   _id: string;
-  date: Date;
+  date: string;
   comment: string;
   rating: number;
   user: IUser;
