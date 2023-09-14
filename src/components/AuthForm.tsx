@@ -16,13 +16,13 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     },
     {
       onSuccess(data) {
-        const { email, firstname, lastname, token } = data.data;
+        const { email, firstname, lastname, token, _id } = data.data;
         localStorage.setItem(
           "user",
-          JSON.stringify({ email, firstname, lastname })
+          JSON.stringify({ email, firstname, lastname, _id })
         );
         localStorage.setItem("token", token);
-        authCtx.updateUser({ email, firstname, lastname, token });
+        authCtx.updateUser({ email, firstname, lastname, token, _id });
         navigate("/");
       },
     }

@@ -5,6 +5,7 @@ interface IUser {
   firstname: string;
   lastname: string;
   token: string;
+  _id: string;
 }
 
 type AuthContextType = {

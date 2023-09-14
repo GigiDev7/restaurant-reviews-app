@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { Oval } from "react-loader-spinner";
 import RestaurantInfo from "../components/RestaurantInfo";
 import { IRestaurant, IReview } from "../types/types";
-import ReviewsList from "./ReviewsList";
+import ReviewsList from "../components/ReviewsList";
 
 type RestaurantData = {
   restaurant: IRestaurant;
@@ -32,8 +32,6 @@ const RestaurantDetails = () => {
     },
   });
 
-  console.log(data);
-
   if (isLoading) {
     return (
       <div className="flex gap-4 justify-center items-center mt-16">
@@ -44,7 +42,7 @@ const RestaurantDetails = () => {
   }
 
   return (
-    <div className="px-16 mt-12">
+    <div className="px-16 mt-12 pb-12">
       {data && (
         <>
           <RestaurantInfo
@@ -52,7 +50,7 @@ const RestaurantDetails = () => {
             reviewMax={data.data.reviewMax}
             reviewMin={data.data.reviewMin}
           />
-          <ReviewsList />
+          <ReviewsList reviews={data.data.restaurant.reviews} />
         </>
       )}
     </div>

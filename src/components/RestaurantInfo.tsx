@@ -14,10 +14,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   reviewMax,
   reviewMin,
 }) => {
-  console.log(reviewMax);
-
   return (
-    <div className="flex gap-32">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-32">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-semibold">{restaurant.name}</h1>
         <h3 className="flex items-center gap-1 font-medium">
@@ -39,10 +37,18 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           alt="restaurant-image"
         />
       </div>
-      <div className="flex gap-20 mt-16">
-        {reviewMax && <ReviewCard review={reviewMax} />}
+      <div className="flex gap-20 mt-24">
+        {reviewMax && (
+          <div className="flex flex-col gap-4">
+            <h2 className="font-medium">Highest rated review</h2>
+            <ReviewCard review={reviewMax} />
+          </div>
+        )}
         {reviewMin && reviewMin.rating !== reviewMax?.rating && (
-          <ReviewCard review={reviewMin} />
+          <div className="flex flex-col gap-4">
+            <h2 className="font-medium">Lowest rated review</h2>
+            <ReviewCard review={reviewMin} />
+          </div>
         )}
       </div>
     </div>
