@@ -19,7 +19,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-semibold">{restaurant.name}</h1>
         <h3 className="flex items-center gap-1 font-medium">
-          {restaurant.averageRating ?? 0}{" "}
+          {restaurant.averageRating ? restaurant.averageRating.toFixed(1) : 0}{" "}
           <StarFilled className="text-yellow-400" />{" "}
           <span className="text-sm font-medium">
             {restaurant.reviews.length} reviews
