@@ -58,7 +58,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
             </div>
           )}
         </div>
-        <span className="text-xs text-center">
+        <span className="text-xs self-start">
           {review.user.firstname} {review.user.lastname}
         </span>
       </div>

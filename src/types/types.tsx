@@ -1,7 +1,7 @@
 export interface IRestaurant {
   _id: string;
   address: string;
-  averageRating?: number;
+  averageRating: number;
   imageUrl: string;
   name: string;
   reviews: IReview[];

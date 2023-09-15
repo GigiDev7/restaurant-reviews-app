@@ -18,7 +18,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
         <div>
           <h2 className="font-medium">{restaurant.name}</h2>
           <h3>
-            {restaurant.averageRating ? restaurant.averageRating.toFixed(1) : 0}{" "}
+            {restaurant.averageRating.toFixed(1)}{" "}
             <StarFilled className="text-yellow-400" />{" "}
             <span className="text-sm text-gray-600">
               {restaurant.reviews.length} reviews
