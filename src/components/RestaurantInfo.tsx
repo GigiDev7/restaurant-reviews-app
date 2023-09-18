@@ -41,13 +41,13 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
         {reviewMax && (
           <div className="flex flex-col gap-4">
             <h2 className="font-medium">Highest rated review</h2>
-            <ReviewCard review={reviewMax} />
+            <ReviewCard isRated review={reviewMax} />
           </div>
         )}
         {reviewMin && reviewMin.rating !== reviewMax?.rating && (
           <div className="flex flex-col gap-4">
             <h2 className="font-medium">Lowest rated review</h2>
-            <ReviewCard review={reviewMin} />
+            <ReviewCard isRated review={reviewMin} />
           </div>
         )}
       </div>

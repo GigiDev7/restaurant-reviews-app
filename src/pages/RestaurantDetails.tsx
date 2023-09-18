@@ -20,13 +20,14 @@ const RestaurantDetails = () => {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["restaurant", restaurantId],
-    queryFn() {
+    queryFn({ signal }) {
       return axios.get<RestaurantData>(
         `${BASE_URL}/restaurant/${restaurantId}`,
         {
           headers: {
             Authorization: `Bearer ${authCtx.user!.token}`,
           },
+          signal,
         }
       );
     },

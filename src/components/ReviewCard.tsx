@@ -11,9 +11,10 @@ import { useParams } from "react-router-dom";
 
 type ReviewCardProps = {
   review: IReview;
+  isRated?: boolean;
 };
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ review, isRated = false }) => {
   const auth = useAuth();
   const client = useQueryClient();
   const { restaurantId } = useParams();
@@ -42,23 +43,24 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 
   return (
     <div className="flex gap-12">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2 w-1/5">
         <div className="flex gap-3 relative">
           <img className="w-12 h-12 rounded-[50%]" src={UserImg} alt="user" />
-          {auth.user?._id === review.user._id && (
-            <EditOutlined onClick={toggleOption} className="cursor-pointer" />
+          {auth.user?._id === review.user._id && !isRated && (
+            <EditOutlined
+              onClick={toggleOption}
+              className="absolute -right-5 cursor-pointer"
+            />
           )}
           {isDeleteOptionShown && (
-            <div className="bg-white p-2 shadow-lg z-20 absolute -top-8 -right-10">
+            <div className="bg-white py-2 px-4 shadow-lg z-20 absolute -top-12 -right-10">
               <button onClick={handleDeleteClick}>
-                {deleteReviewMutation.isLoading
-                  ? "Deleting.."
-                  : "Delete review"}
+                {deleteReviewMutation.isLoading ? "Deleting.." : "Delete"}
               </button>
             </div>
           )}
         </div>
-        <span className="text-xs self-start">
+        <span className="text-xs text-center">
           {review.user.firstname} {review.user.lastname}
         </span>
       </div>

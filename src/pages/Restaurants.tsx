@@ -35,7 +35,7 @@ const Restaurants = () => {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["restaurants", page, minRating, maxRating],
-    queryFn() {
+    queryFn({ signal }) {
       return axios.get<{
         totalCount: number;
         restaurants: IRestaurant[];
@@ -43,6 +43,7 @@ const Restaurants = () => {
         headers: {
           Authorization: `Bearer ${authCtx.user!.token}`,
         },
+        signal,
       });
     },
     retry: 2,

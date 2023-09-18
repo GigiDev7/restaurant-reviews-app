@@ -10,7 +10,7 @@
 
 html,
 #root {
-  height: 100dvh;
+  height: 100lvh;
 }
 
 #review-list::-webkit-scrollbar-track {
