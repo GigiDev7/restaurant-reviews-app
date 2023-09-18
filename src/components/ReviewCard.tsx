@@ -5,9 +5,10 @@ import { StarFilled, EditOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { useAuth } from "../context/AuthContext";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { BASE_URL } from "../config";
 import { useParams } from "react-router-dom";
+import { useErrorBoundary } from "react-error-boundary";
 
 type ReviewCardProps = {
   review: IReview;
@@ -18,6 +19,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, isRated = false }) => {
   const auth = useAuth();
   const client = useQueryClient();
   const { restaurantId } = useParams();
+  const { showBoundary } = useErrorBoundary();
 
   const [isDeleteOptionShown, setIsDeleteOptionShown] = useState(false);
 
@@ -33,6 +35,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, isRated = false }) => {
       onSuccess() {
         client.invalidateQueries(["restaurant", restaurantId]);
         setIsDeleteOptionShown(false);
+      },
+      onError(error: AxiosError) {
+        if (error.response?.status.toString().startsWith("5")) {
+          showBoundary(error);
+        }
       },
     }
   );

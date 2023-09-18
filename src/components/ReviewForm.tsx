@@ -2,9 +2,10 @@ import { ChangeEvent, useState } from "react";
 import { Rate, DatePicker } from "antd";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { BASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
+import { useErrorBoundary } from "react-error-boundary";
 
 type ReviewData = {
   rating: number | null;
@@ -26,6 +27,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeModal }) => {
 
   const authCtx = useAuth();
   const client = useQueryClient();
+  const { showBoundary } = useErrorBoundary();
 
   const addReviewMutation = useMutation(
     (data: ReviewData) => {
@@ -44,6 +46,11 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeModal }) => {
         client.invalidateQueries(["restaurant", restaurantId]);
         setReviewData({ comment: null, date: null, rating: null });
         closeModal();
+      },
+      onError(error: AxiosError) {
+        if (error.response?.status.toString().startsWith("5")) {
+          showBoundary(error);
+        }
       },
     }
   );

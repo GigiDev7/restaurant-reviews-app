@@ -1,14 +1,16 @@
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Form, Input } from "antd";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "react-query";
 import { BASE_URL } from "../config";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useErrorBoundary } from "react-error-boundary";
 
 const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const navigate = useNavigate();
   const authCtx = useAuth();
+  const { showBoundary } = useErrorBoundary();
 
   const login = useMutation(
     ({ email, password }: { email: string; password: string }) => {
@@ -25,6 +27,11 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
         authCtx.updateUser({ email, firstname, lastname, token, _id });
         navigate("/");
       },
+      onError(error: AxiosError) {
+        if (error.response?.status.toString().startsWith("5")) {
+          showBoundary(error);
+        }
+      },
     }
   );
 
@@ -40,6 +47,11 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     {
       onSuccess() {
         navigate("/signin");
+      },
+      onError(error: AxiosError) {
+        if (error.response?.status.toString().startsWith("5")) {
+          showBoundary(error);
+        }
       },
     }
   );
