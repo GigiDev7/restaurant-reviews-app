@@ -9,10 +9,12 @@ import RestaurantList from "../components/RestaurantList";
 import { Pagination } from "antd";
 import { IRestaurant } from "../types/types";
 import RatingFilter from "../components/RatingFilter";
+import { useErrorBoundary } from "react-error-boundary";
 
 const Restaurants = () => {
   const authCtx = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { showBoundary } = useErrorBoundary();
 
   const page = searchParams.get("page") || "1";
   const minRating = searchParams.get("minRating");
@@ -56,6 +58,10 @@ const Restaurants = () => {
         <span>Loading...</span>
       </div>
     );
+  }
+
+  if (error) {
+    showBoundary(error);
   }
 
   return (

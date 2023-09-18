@@ -7,6 +7,7 @@ import { Oval } from "react-loader-spinner";
 import RestaurantInfo from "../components/RestaurantInfo";
 import { IRestaurant, IReview } from "../types/types";
 import ReviewsList from "../components/ReviewsList";
+import { useErrorBoundary } from "react-error-boundary";
 
 type RestaurantData = {
   restaurant: IRestaurant;
@@ -17,6 +18,7 @@ type RestaurantData = {
 const RestaurantDetails = () => {
   const authCtx = useAuth();
   const { restaurantId } = useParams();
+  const { showBoundary } = useErrorBoundary();
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["restaurant", restaurantId],
@@ -40,6 +42,10 @@ const RestaurantDetails = () => {
         <span>Loading...</span>
       </div>
     );
+  }
+
+  if (error) {
+    showBoundary(error);
   }
 
   return (

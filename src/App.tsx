@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect } from "react";
 import ProtectRoute from "./components/ProtectRoute";
 import Loading from "./components/Loading";
 import { useAuth } from "./context/AuthContext";
+import Fallback from "./FallbackErrorBoundary";
 
 const Restaurants = lazy(() => import("./pages/Restaurants"));
 const RestaurantDetails = lazy(() => import("./pages/RestaurantDetails"));
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
     ),
   },
   {
+    errorElement: <Fallback />,
     path: "/",
     element: (
       <Suspense fallback={<Loading />}>
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
     ),
   },
   {
+    errorElement: <Fallback />,
     path: "/:restaurantId",
     element: (
       <Suspense fallback={<Loading />}>
