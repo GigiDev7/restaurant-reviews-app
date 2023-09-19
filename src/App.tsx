@@ -18,6 +18,7 @@ const router = createBrowserRouter([
         <Signin />
       </Suspense>
     ),
+    errorElement: <Fallback />,
   },
   {
     path: "/signup",
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         <Signup />
       </Suspense>
     ),
+    errorElement: <Fallback />,
   },
   {
     errorElement: <Fallback />,
