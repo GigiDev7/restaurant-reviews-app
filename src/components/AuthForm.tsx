@@ -28,9 +28,7 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
         navigate("/");
       },
       onError(error: AxiosError) {
-        if (error.response?.status.toString().startsWith("5")) {
-          showBoundary(error);
-        }
+        showBoundary(error);
       },
     }
   );
@@ -42,16 +40,14 @@ const AuthForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
       firstname: string;
       lastname: string;
     }) => {
-      return axios.post(`${BASE_URL}/user/signup`, userData);
+      return axios.post(`${BASE_URL}/user/sign up`, userData);
     },
     {
       onSuccess() {
         navigate("/signin");
       },
       onError(error: AxiosError) {
-        if (error.response?.status.toString().startsWith("5")) {
-          showBoundary(error);
-        }
+        showBoundary(error);
       },
     }
   );

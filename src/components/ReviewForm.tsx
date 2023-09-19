@@ -48,9 +48,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ closeModal }) => {
         closeModal();
       },
       onError(error: AxiosError) {
-        if (error.response?.status.toString().startsWith("5")) {
-          showBoundary(error);
-        }
+        showBoundary(error);
       },
     }
   );
