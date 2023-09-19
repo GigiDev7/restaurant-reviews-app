@@ -37,9 +37,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, isRated = false }) => {
         setIsDeleteOptionShown(false);
       },
       onError(error: AxiosError) {
-        if (error.response?.status.toString().startsWith("5")) {
-          showBoundary(error);
-        }
+        showBoundary(error);
       },
     }
   );
